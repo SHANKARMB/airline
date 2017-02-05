@@ -61,7 +61,7 @@ $serverName = "tcp:shankarserver1.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 
-					$sql="insert into user (pid,pname,pmobile,pemailid,paddress,ppassword) values ('".time()."','".$pname."','".$pmobile."','".$pemailid."','".$paddress."','".$ppassword."')";
+					$sql="insert into user1 (pid,pname,pmobile,pemailid,paddress,ppassword) values ('".time()."','".$pname."','".$pmobile."','".$pemailid."','".$paddress."','".$ppassword."')";
 					$result=sqlsrv_query($conn,$sql) or die("Transaction Failed<br/>".$sql."-----".sqlsrv_errors($conn));
 					echo "<div id='success'>User Created !!</br>Enter the username and password to Login</div>";
 					die();

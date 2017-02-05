@@ -124,7 +124,7 @@ $serverName = "tcp:shankarserver1.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 
-					$sql1="select pid from user where pname='".$pname."' and ppassword='".$ppassword."'";
+					$sql1="select pid from user1 where pname='".$pname."' and ppassword='".$ppassword."'";
 					#echo "---sql1----$sql1--------</br>";
 					$pid=sqlsrv_query($conn,$sql1) or die("Transaction Failed<br/>".$sql1."-----".sqlsrv_errors($conn));
 					$pid=sqlsrv_fetch_array($pid,SQLSRV_FETCH_ASSOC);

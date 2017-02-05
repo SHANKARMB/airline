@@ -47,7 +47,7 @@ $conn = sqlsrv_connect($serverName, $connectionInfo);
 if(isset($_POST['register'])){
 
 	$pid=time();
-	$sql="insert into user (pid,pname,pmobile,pemailid,paddress,ppassword) values ('".$pid."','".$pname."','".$pmobile."','".$pemailid."','".$paddress."','".$ppassword."')";
+	$sql="insert into user1 (pid,pname,pmobile,pemailid,paddress,ppassword) values ('".$pid."','".$pname."','".$pmobile."','".$pemailid."','".$paddress."','".$ppassword."')";
 	$result=sqlsrv_query($conn,$sql) or die("Transaction Failed<br/>".$sql."-----".sqlsrv_errors($conn));
 	echo "<div id='success'>User Created !!</br>Enter the username and password to Login</div>";
 
@@ -64,11 +64,11 @@ if(isset($_POST['register'])){
 }
 else if(isset($_POST['login'])){
 
-	$sql1="select pid from user where pname='".$pname."' and ppassword='".$ppassword."'";
+	$sql1="select pid from user1 where pname='".$pname."' and ppassword='".$ppassword."'";
 	#echo "---sql1----$sql1--------</br>";
 	$pid=mysqli_query($conn,$sql1) or die("Transaction Failed<br/>".$sql1."-----".sqlsrv_errors($conn));
 	$pid=sqlsrv_fetch_array($pid,SQLSRV_FETCH_ASSOC));
-	$sql2="select * from user where pid='".$pid["pid"]."'";
+	$sql2="select * from user1 where pid='".$pid["pid"]."'";
 	#echo "--sql2---$sql2----</br>";
 	$result=mysqli_query($conn,$sql2) or die("Transaction Failed<br/>".$sql2."-----".sqlsrv_errors($conn));
 	$row=sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC));
