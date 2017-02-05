@@ -1,0 +1,64 @@
+.ptitle{
+	color:rgb(255, 0, 74);
+	padding-left:43%;
+}
+
+body{
+background-image:url(../images/abc.jpg);
+width:80%;
+margin-left:20%;
+
+}
+
+.phead h1{
+margin-top:3%;
+margin-left: 21.5%;font-size:3em;
+height:10%;
+
+}
+#pbody h1{
+margin-top:3%;
+margin-left: 18.5%;font-size:2.3em;
+height:10%;
+
+}
+a.nav {text-decoration:none;}
+a.nav:focus{text-decoration:none;}
+table.nav {
+width: 40%;
+    text-align: center;
+    margin-left: 18%;
+    height: 5%;
+}
+
+td.nav {
+	width: 33.33333%;
+color:#ebb495;
+background-color:rgba(255, 0, 0, 0.7);
+font-size:2em;
+border-style: outset;
+}
+th.nav {
+color:#ebb495;
+background-color:rgba(255, 0, 0, 0.7);
+font-size:2em;
+border-style: outset;
+width: 33.33333%;
+}
+
+a.nav {color: inherit;}
+
+td.nav:hover{
+
+	background-color:#ebb495;
+	color:rgba(255, 0, 0, 0.7);
+	box-shadow: 10px 10px 10px 5px #888888;
+	cursor:hand;
+}
+th.nav:hover {
+
+	background-color:#ebb495;
+	color:rgba(255, 0, 0, 0.7);
+	box-shadow: 10px 10px 10px 5px #888888;
+	cursor:hand;
+}
