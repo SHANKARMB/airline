@@ -122,12 +122,13 @@ catch (PDOException $e) {
 $connectionInfo = array("UID" => "smbinju195@shankarserver1", "pwd" => "Shankar195", "Database" => "airline", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
 $serverName = "tcp:shankarserver1.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
-
-
+echo "<script>console.log('Connection Success');</script>";
 					$sql1="select pid from user1 where pname='".$pname."' and ppassword='".$ppassword."'";
+					echo "<script>console.log('$sql1');</script>";
 					#echo "---sql1----$sql1--------</br>";
 					$pid=sqlsrv_query($conn,$sql1) or die("Transaction Failed<br/>".$sql1."-----".sqlsrv_errors($conn));
 					$pid=sqlsrv_fetch_array($pid,SQLSRV_FETCH_ASSOC);
+					echo "<script>console.log('pid ==== $pid');</script>";
 					#echo "----pid------$pid---------</br>";
 					$sql2="select * from booking where pid='".$pid["pid"]."'";
 					#echo "--sql2---$sql2----</br>";
