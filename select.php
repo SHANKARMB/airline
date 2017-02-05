@@ -192,41 +192,53 @@
 		<div id="phidden" >
 			<?php
 				if(isset($_POST['submit'])){
-					$servername = "localhost";
-					$username = "root";
-					$password = "";
-					$dbname="airline";
-					$conn = mysqli_connect($servername, $username, $password,$dbname) or die ("Connection Error");
+					
+// PHP Data Objects(PDO) Sample Code:
+try {
+    $conn = new PDO("sqlsrv:server = tcp:shankarserver1.database.windows.net,1433; Database = airline", "smbinju195", "Shankar195");
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+}
+catch (PDOException $e) {
+    print("Error connecting to SQL Server.");
+    die(print_r($e));
+}
+
+// SQL Server Extension Sample Code:
+$connectionInfo = array("UID" => "smbinju195@shankarserver1", "pwd" => "Shankar195", "Database" => "airline", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:shankarserver1.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
+
+
 					extract($_POST);
 					$depi=strtotime($depdate);
 					$depd = date('Y-m-d',$depi+60*60*24);
 					$sql1="select * from flight where fromloc=\"".$fromloc."\" and toloc=\"".$toloc."\""." and depdate >='".date('Y-m-d',$depi-60*60*24*4)."' and depdate <= '".date('Y-m-d',$depi+60*60*24*4)."'";
-					$flightTable=mysqli_query($conn,$sql1);
+					$flightTable=sqlsrv_query($conn,$sql1);
 					$flight="";
 					$booking="";
-					if($flightTable && mysqli_num_rows($flightTable)>0)
+					if($flightTable && sqlsrv_num_rows($flightTable)>0)
 					{	//echo "</br>flight quired successfully";
-						while($row=mysqli_fetch_assoc($flightTable))
+						while($row=sqlsrv_fetch_array($flightTable,SQLSRV_FETCH_ASSOC))
 						{	//echo "-".$row["flightno"]."-";
 							$flight.=$row["flightno"].",".$row["fname"].",".$row["fromloc"].",".$row["toloc"].",".$row["depdate"].",".$row["deptime"];
 							$flight.=",".$row["arrdate"].",".$row["arrtime"].",".$row["seats"].";";
 							$sql2="select * from booking where flightno=\"".$row["flightno"]."\"";
 							//echo $sql2;
-							$bookingTable=mysqli_query($conn,$sql2);
-							if($bookingTable && mysqli_num_rows($bookingTable)>0)
+							$bookingTable=sqlsrv_query($conn,$sql2);
+							if($bookingTable && sqlsrv_num_rows($bookingTable)>0)
 							{	//echo "</br>booking quired successfully";
 								$booking.=$row["flightno"]."";
-								while($row=mysqli_fetch_assoc($bookingTable))
+								while($row=sqlsrv_fetch_array($bookingTable,SQLSRV_FETCH_ASSOC))
 									$booking.=",".$row["pseatno"];
 								$booking.=";";
 								//echo "-".$booking."-";
 							}
 
-							else if(mysqli_num_rows($bookingTable)<=0){
+							else if(sqlsrv_num_rows($bookingTable)<=0){
 								//echo "</br>No Data in Table \"booking\" for flightno=".$row["flightno"];
 							}
 							else {
-								//echo "</br>Error quering database for flightno=".$row["flightno"]." : ".mysqli_error($conn);
+								//echo "</br>Error quering database for flightno=".$row["flightno"]." : ".sqlsrv_error($conn);
 							}
 
 							//echo "-".$flight."-";
@@ -235,11 +247,11 @@
 						//echo "</br>$flight";
 					}
 
-					else if(mysqli_num_rows($bookingTable)<=0){
+					else if(sqlsrv_num_rows($bookingTable)<=0){
 						echo "</br>No Data in Table \"flight\"";
 					}
 					else {
-						echo "</br>Error quering database: " . mysqli_error($conn);
+						echo "</br>Error quering database: " . sqlsrv_errors($conn);
 					}
 					echo "</br></br></br>";
 					echo "<div id=\"flight\" style=\"display:none;\" >$flight</div>";
@@ -248,7 +260,7 @@
 					foreach($_POST as $x => $xv)
 						echo "$xv,";
 					echo "</div>";
-					mysqli_close($conn);
+					sqlsrv_close($conn);
 				}
 			?>
 

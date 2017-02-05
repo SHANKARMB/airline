@@ -30,11 +30,22 @@
 		</br>
 			<form action="select.php" method="POST">
 				<?php
-					$servername = "localhost";
-					$username = "root";
-					$password = "";
-					$dbname="airline";
-					$conn = mysqli_connect($servername, $username, $password,$dbname);
+					
+// PHP Data Objects(PDO) Sample Code:
+try {
+    $conn = new PDO("sqlsrv:server = tcp:shankarserver1.database.windows.net,1433; Database = airline", "smbinju195", "Shankar195");
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+}
+catch (PDOException $e) {
+    print("Error connecting to SQL Server.");
+    die(print_r($e));
+}
+
+// SQL Server Extension Sample Code:
+$connectionInfo = array("UID" => "smbinju195@shankarserver1", "pwd" => "Shankar195", "Database" => "airline", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:shankarserver1.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
+
 
 
 				?>
@@ -47,9 +58,9 @@
 							<datalist id="fromloclist">
 								<?php
 									$sql="select fromloc from flight";
-									$result=mysqli_query($conn,$sql);
-									if ($result && mysqli_num_rows($result) > 0)
-										while($row = mysqli_fetch_assoc($result))
+									$result=sqlsrv_query($conn,$sql);
+									if ($result && sqlsrv_num_rows($result) > 0)
+										while($row = sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC))
 											echo "<option value='".$row["fromloc"]."'>".$row["fromloc"]."</option>";
 
 								?>
@@ -63,12 +74,12 @@
 							<datalist id="toloclist">
 								<?php
 									$sql="select toloc from flight";
-									$result=mysqli_query($conn,$sql);
-									if ($result && mysqli_num_rows($result) > 0)
-										while($row = mysqli_fetch_assoc($result))
+									$result=sqlsrv_query($conn,$sql);
+									if ($result && sqlsrv_num_rows($result) > 0)
+										while($row = sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC))
 											echo "<option value='".$row["toloc"]."'>".$row["toloc"]."</option>";
 
-									mysqli_close($conn);
+									sqlsrv_close($conn);
 								?>
 							</datalist>
 

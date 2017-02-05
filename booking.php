@@ -24,17 +24,31 @@
 
 
 extract($_POST);
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname="airline";
-$conn = mysqli_connect($servername, $username, $password,$dbname);
+
+
+
+// PHP Data Objects(PDO) Sample Code:
+try {
+    $conn = new PDO("sqlsrv:server = tcp:shankarserver1.database.windows.net,1433; Database = airline", "smbinju195", "Shankar195");
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+}
+catch (PDOException $e) {
+    print("Error connecting to SQL Server.");
+    die(print_r($e));
+}
+
+// SQL Server Extension Sample Code:
+$connectionInfo = array("UID" => "smbinju195@shankarserver1", "pwd" => "Shankar195", "Database" => "airline", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:shankarserver1.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
+
+
 
 if(isset($_POST['register'])){
 
 	$pid=time();
 	$sql="insert into user (pid,pname,pmobile,pemailid,paddress,ppassword) values ('".$pid."','".$pname."','".$pmobile."','".$pemailid."','".$paddress."','".$ppassword."')";
-	$result=mysqli_multi_query($conn,$sql) or die("Transaction Failed<br/>".$sql."-----".mysqli_error($conn));
+	$result=sqlsrv_query($conn,$sql) or die("Transaction Failed<br/>".$sql."-----".sqlsrv_errors($conn));
 	echo "<div id='success'>User Created !!</br>Enter the username and password to Login</div>";
 
 	foreach( explode(" ",$selectedSeats) as $pseatno)
@@ -42,7 +56,7 @@ if(isset($_POST['register'])){
 		$sql1="insert into booking (pid,pname,pmobile,pemailid,paddress,pseatno,flightno) values ('";
 		$sql1.=$pid."','".$pname."','".$pmobile."','".$pemailid."','".$paddress."','".$pseatno."','".$selectedFno."')";
 
-		$result=mysqli_multi_query($conn,$sql1) or die("Transaction Failed<br/>".$sql1."");
+		$result=sqlsrv_query($conn,$sql1) or die("Transaction Failed<br/>".$sql1."");
 	}
 
 	echo "<h2>Booked successfully..!!!</br>Login to check for your booking History..</br>Thank You.Visit Again</h2>";
@@ -52,12 +66,12 @@ else if(isset($_POST['login'])){
 
 	$sql1="select pid from user where pname='".$pname."' and ppassword='".$ppassword."'";
 	#echo "---sql1----$sql1--------</br>";
-	$pid=mysqli_query($conn,$sql1) or die("Transaction Failed<br/>".$sql1."-----".mysqli_error($conn));
-	$pid=mysqli_fetch_assoc($pid);
+	$pid=mysqli_query($conn,$sql1) or die("Transaction Failed<br/>".$sql1."-----".sqlsrv_errors($conn));
+	$pid=sqlsrv_fetch_array($pid,SQLSRV_FETCH_ASSOC));
 	$sql2="select * from user where pid='".$pid["pid"]."'";
 	#echo "--sql2---$sql2----</br>";
-	$result=mysqli_query($conn,$sql2) or die("Transaction Failed<br/>".$sql2."-----".mysqli_error($conn));
-	$row=mysqli_fetch_assoc($result);
+	$result=mysqli_query($conn,$sql2) or die("Transaction Failed<br/>".$sql2."-----".sqlsrv_errors($conn));
+	$row=sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC));
 	$pid=$row["pid"];
 	$pname=$row["pname"];
 	$pmobile=$row["pmobile"];
@@ -69,7 +83,7 @@ else if(isset($_POST['login'])){
 		$sql1="insert into booking (pid,pname,pmobile,pemailid,paddress,pseatno,flightno) values ('";
 		$sql1.=$pid."','".$pname."','".$pmobile."','".$pemailid."','".$paddress."','".$pseatno."','".$selectedFno."')";
 
-		$result=mysqli_multi_query($conn,$sql1) or die("Transaction Failed<br/>".$sql1."");
+		$result=sqlsrv_query($conn,$sql1) or die("Transaction Failed<br/>".$sql1."");
 	}
 
 
@@ -127,7 +141,7 @@ else if(isset($_POST['login'])){
 
 
 
-mysqli_close($conn);
+sqlsrv_close($conn);
 
 		?>
 

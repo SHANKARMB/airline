@@ -107,24 +107,35 @@ th.nav:hover {
 		<?php
 
 				if(isset($_POST['login'])){
-					extract($_POST);
-					$servername = "localhost";
-					$username = "root";
-					$password = "";
-					$dbname="airline";
-					$conn = mysqli_connect($servername, $username, $password,$dbname);
+					
+// PHP Data Objects(PDO) Sample Code:
+try {
+    $conn = new PDO("sqlsrv:server = tcp:shankarserver1.database.windows.net,1433; Database = airline", "smbinju195", "Shankar195");
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+}
+catch (PDOException $e) {
+    print("Error connecting to SQL Server.");
+    die(print_r($e));
+}
+
+// SQL Server Extension Sample Code:
+$connectionInfo = array("UID" => "smbinju195@shankarserver1", "pwd" => "Shankar195", "Database" => "airline", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:shankarserver1.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
+
+
 					$sql1="select pid from user where pname='".$pname."' and ppassword='".$ppassword."'";
 					#echo "---sql1----$sql1--------</br>";
-					$pid=mysqli_query($conn,$sql1) or die("Transaction Failed<br/>".$sql1."-----".mysqli_error($conn));
-					$pid=mysqli_fetch_assoc($pid);
+					$pid=sqlsrv_query($conn,$sql1) or die("Transaction Failed<br/>".$sql1."-----".sqlsrv_errors($conn));
+					$pid=sqlsrv_fetch_array($pid,SQLSRV_FETCH_ASSOC);
 					#echo "----pid------$pid---------</br>";
 					$sql2="select * from booking where pid='".$pid["pid"]."'";
 					#echo "--sql2---$sql2----</br>";
-					$result=mysqli_query($conn,$sql2) or die("Transaction Failed<br/>".$sql2."-----".mysqli_error($conn));
+					$result=sqlsrv_query($conn,$sql2) or die("Transaction Failed<br/>".$sql2."-----".sqlsrv_errors($conn));
 					$str="<table>";
 					$str.="<tr   ><th>Name</th><th>Mobile</th><th>EmaiID</th><th>Address</th><th>Seat No</th><th>Flight No</th></tr>";
-					if ($result && mysqli_num_rows($result) > 0)
-						while($row = mysqli_fetch_assoc($result)){
+					if ($result && sqlsrv_num_rows($result) > 0)
+						while($row = sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC)){
 							$str.="<tr     >";
 							$str.="<td>".$row["pname"]."</td>";
 							$str.="<td>".$row["pmobile"]."</td>";
@@ -138,7 +149,7 @@ th.nav:hover {
 					echo "$str";
 					die();
 				}
-				mysqli_close($conn);
+				sqlsrv_close($conn);
 		?>
 	</div>
 

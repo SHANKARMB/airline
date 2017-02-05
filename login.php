@@ -44,13 +44,25 @@
 
 				if(isset($_POST['register'])){
 					extract($_POST);
-					$servername = "localhost";
-					$username = "root";
-					$password = "";
-					$dbname="airline";
-					$conn = mysqli_connect($servername, $username, $password,$dbname);
+					
+// PHP Data Objects(PDO) Sample Code:
+try {
+    $conn = new PDO("sqlsrv:server = tcp:shankarserver1.database.windows.net,1433; Database = airline", "smbinju195", "Shankar195");
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+}
+catch (PDOException $e) {
+    print("Error connecting to SQL Server.");
+    die(print_r($e));
+}
+
+// SQL Server Extension Sample Code:
+$connectionInfo = array("UID" => "smbinju195@shankarserver1", "pwd" => "Shankar195", "Database" => "airline", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:shankarserver1.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
+
+
 					$sql="insert into user (pid,pname,pmobile,pemailid,paddress,ppassword) values ('".time()."','".$pname."','".$pmobile."','".$pemailid."','".$paddress."','".$ppassword."')";
-					$result=mysqli_multi_query($conn,$sql) or die("Transaction Failed<br/>".$sql."-----".mysqli_error($conn));
+					$result=sqlsrv_query($conn,$sql) or die("Transaction Failed<br/>".$sql."-----".sqlsrv_errors($conn));
 					echo "<div id='success'>User Created !!</br>Enter the username and password to Login</div>";
 					die();
 				}
