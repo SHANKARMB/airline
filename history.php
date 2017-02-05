@@ -123,6 +123,9 @@ $connectionInfo = array("UID" => "smbinju195@shankarserver1", "pwd" => "Shankar1
 $serverName = "tcp:shankarserver1.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 echo "<script>console.log('Connection Success');</script>";
+extract($_POST);
+foreach($_POST as $x => $xv)
+						echo "$x => $xv,";
 					$sql1="select pid from user1 where pname='".$pname."' and ppassword='".$ppassword."'";
 					echo "<script>console.log($sql1);</script>";
 					#echo "---sql1----$sql1--------</br>";

@@ -44,7 +44,8 @@
 
 				if(isset($_POST['register'])){
 					extract($_POST);
-					
+					foreach($_POST as $x => $xv)
+						echo "$x => $xv,";
 // PHP Data Objects(PDO) Sample Code:
 try {
     $conn = new PDO("sqlsrv:server = tcp:shankarserver1.database.windows.net,1433; Database = airline", "smbinju195", "Shankar195");

@@ -45,7 +45,8 @@ $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 
 if(isset($_POST['register'])){
-
+foreach($_POST as $x => $xv)
+						echo "$x => $xv,";
 	$pid=time();
 	$sql="insert into user1 (pid,pname,pmobile,pemailid,paddress,ppassword) values ('".$pid."','".$pname."','".$pmobile."','".$pemailid."','".$paddress."','".$ppassword."')";
 	$result=sqlsrv_query($conn,$sql) or die("Transaction Failed<br/>".$sql."-----".sqlsrv_errors($conn));
@@ -63,7 +64,8 @@ if(isset($_POST['register'])){
 	die();
 }
 else if(isset($_POST['login'])){
-
+foreach($_POST as $x => $xv)
+						echo "$x => $xv,";
 	$sql1="select pid from user1 where pname='".$pname."' and ppassword='".$ppassword."'";
 	#echo "---sql1----$sql1--------</br>";
 	$pid=mysqli_query($conn,$sql1) or die("Transaction Failed<br/>".$sql1."-----".sqlsrv_errors($conn));

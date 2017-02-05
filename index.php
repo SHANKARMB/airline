@@ -45,8 +45,8 @@ catch (PDOException $e) {
 $connectionInfo = array("UID" => "smbinju195@shankarserver1", "pwd" => "Shankar195", "Database" => "airline", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
 $serverName = "tcp:shankarserver1.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
-
 echo "<script>console.log('Connection Success');</script>";
+
 
 				?>
 				<table>
@@ -62,9 +62,7 @@ echo "<script>console.log('Connection Success');</script>";
 									if ($result && sqlsrv_num_rows($result) > 0)
 										while($row = sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC))
 											echo "<option value='".$row["fromloc"]."'>".$row["fromloc"]."</option>";
-									else
-										echo "<script>console.log('no data');</script>";
-
+			
 								?>
 							</datalist>
 
@@ -80,8 +78,7 @@ echo "<script>console.log('Connection Success');</script>";
 									if ($result && sqlsrv_num_rows($result) > 0)
 										while($row = sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC))
 											echo "<option value='".$row["toloc"]."'>".$row["toloc"]."</option>";
-									else
-										echo "<script>console.log('no data');</script>";
+
 									sqlsrv_close($conn);
 								?>
 							</datalist>
