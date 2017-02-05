@@ -46,7 +46,7 @@ $connectionInfo = array("UID" => "smbinju195@shankarserver1", "pwd" => "Shankar1
 $serverName = "tcp:shankarserver1.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
-
+echo "<script>console.log('Connection Success');</script>";
 
 				?>
 				<table>
