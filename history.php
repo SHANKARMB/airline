@@ -126,6 +126,7 @@ echo "<script>console.log('Connection Success');</script>";
 extract($_POST);
 foreach($_POST as $x => $xv)
 						echo "$x => $xv,";
+echo "<script>console.log('Lol,...');</script>";						
 					$sql1="select pid from user1 where pname='".$pname."' and ppassword='".$ppassword."'";
 					echo "<script>console.log($sql1);</script>";
 					#echo "---sql1----$sql1--------</br>";
@@ -137,7 +138,7 @@ foreach($_POST as $x => $xv)
 					#echo "--sql2---$sql2----</br>";
 					$result=sqlsrv_query($conn,$sql2) or die("Transaction Failed<br/>".$sql2."-----".sqlsrv_errors($conn));
 					$str="<table>";
-					$str.="<tr   ><th>Name</th><th>Mobile</th><th>EmaiID</th><th>Address</th><th>Seat No</th><th>Flight No</th></tr>";
+					$str.="<tr><th>Name</th><th>Mobile</th><th>EmaiID</th><th>Address</th><th>Seat No</th><th>Flight No</th></tr>";
 					if ($result && sqlsrv_num_rows($result) > 0)
 						while($row = sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC)){
 							$str.="<tr     >";
