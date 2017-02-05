@@ -210,6 +210,7 @@ $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 
 					extract($_POST);
+					
 					$depi=strtotime($depdate);
 					$depd = date('Y-m-d',$depi+60*60*24);
 					$sql1="select * from flight where fromloc=\"".$fromloc."\" and toloc=\"".$toloc."\""." and depdate >='".date('Y-m-d',$depi-60*60*24*4)."' and depdate <= '".date('Y-m-d',$depi+60*60*24*4)."'";
@@ -256,9 +257,9 @@ $conn = sqlsrv_connect($serverName, $connectionInfo);
 					echo "</br></br></br>";
 					echo "<div id=\"flight\" style=\"display:none;\" >$flight</div>";
 					echo "<div id=\"booking\" style=\"display:none;\" >$booking</div>";
-					echo "<div id=\"userSelection\" style=\"display:none;\" >";
+					echo "<div id=\"userSelection\" style=\"\" >";
 					foreach($_POST as $x => $xv)
-						echo "$xv,";
+						echo "$x => $xv,";
 					echo "</div>";
 					sqlsrv_close($conn);
 				}
